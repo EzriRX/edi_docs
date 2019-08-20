@@ -1,0 +1,125 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - 860 EDI Documentation</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/tooltipster.min.css" />
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/js/jquery.tooltipster.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.tooltip').tooltipster();
+    });
+  </script>
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+    }
+
+    p {
+      line-height: 1.5em;
+    }
+
+    h1 {
+      line-height: 2em;
+    }
+
+    h1 small {
+      color: #666;
+      display: block;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      background: #f4f7fc;
+      border-left: 4px solid #bac4da;
+      padding: 8px 8px 8px 16px;
+    }
+
+    h2,
+    ul {
+      margin: 30px 0;
+    }
+
+    h3 {
+      color: #41495f;
+      margin: 30px 0;
+    }
+
+    ul li {
+      margin-bottom: 20px;
+    }
+
+    code {
+      display: block;
+      background: #1c2c4c;
+      color: #fff;
+      word-break: normal;
+      word-wrap: break-word;
+      tab-size: 4;
+      white-space: pre-line;
+      padding: .5rem;
+    }
+
+    .tooltip {
+      background: #334770;
+      border-radius: 2px;
+      box-shadow: 0 0 2px #000;
+    }
+
+    .tooltip:hover {
+      background: #6280a7;
+      cursor: help;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx - EDI 860 Purchase Order Change Request <small>Documentation</small></h1>
+
+  <p>The below documentation outlines the 860 EDI file that represents a Purchase Order Change Request. This document is
+    sent to
+    wholesalers when an EzriRx order is edited by the pharmacy.<p>
+
+      <h2>860 Purchase Order Change Request</h2>
+
+      <p>Here is an example 860 file that will be sent for each new order: <a href="examples/ezrirx_860_example.edi.txt"
+          target="_blank">ezrirx_860_example.edi</a></p>
+
+      <p>Hover the highlighted elements to see more details:</p>
+
+      <code>ISA*00* *00* *ZZ*EZRIRX *12*1234567890 *180312*1215*U*00401*000000005*0*T*>
+        GS*PO*EZRIRX*1234567890*20180312*1215*1*X*004010
+        ST*860*0001
+        BCH*<span class="tooltip" title="01: Cancellation, 04: Change">04</span>*SA*<span class="tooltip"
+          title="EzriRx Order number">R601995281</span>*20190716
+        DTM*007*20190716
+        N1*BY*Example Pharmacy*91*123456
+        N2*Example Pharmacy
+        N3*123 Drury Lane
+        N4*Brooklyn*NY*11218*USA
+        POC*1*<span class="tooltip" title="RZ: Replace All Values">RZ</span>***<span class="tooltip"
+          title="New Quantity">9</span>**<span class="tooltip" title="Unit Price">12.34</span>**<span class="tooltip"
+          title="NDC">N4</span>*00472040250
+        POC*2*RZ***1**23.45**N4*76518003050
+        CTT*2*16
+        SE*11*0001
+        GE*1*1
+        IEA*1*000000005</code>
+</body>
+
+</html>

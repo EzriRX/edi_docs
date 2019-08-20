@@ -1,0 +1,197 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - 855 EDI Documentation</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/tooltipster.min.css" />
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/js/jquery.tooltipster.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.tooltip').tooltipster();
+    });
+  </script>
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+    }
+
+    p {
+      line-height: 1.5em;
+    }
+
+    h1 {
+      line-height: 2em;
+    }
+
+    h1 small {
+      color: #666;
+      display: block;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      background: #f4f7fc;
+      border-left: 4px solid #bac4da;
+      padding: 8px 8px 8px 16px;
+    }
+
+    h2,
+    ul {
+      margin: 30px 0;
+    }
+
+    h3 {
+      color: #41495f;
+      margin: 30px 0;
+    }
+
+    ul li {
+      margin-bottom: 20px;
+    }
+
+    code {
+      display: block;
+      background: #1c2c4c;
+      color: #fff;
+      word-break: normal;
+      word-wrap: break-word;
+      tab-size: 4;
+      white-space: pre-line;
+      padding: .5rem;
+    }
+
+    .tooltip {
+      background: #334770;
+      border-radius: 2px;
+      box-shadow: 0 0 2px #000;
+    }
+
+    .tooltip:hover {
+      background: #6280a7;
+      cursor: help;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx - EDI 855 Purchase Order Acknowledgement <small>Specifications</small></h1>
+
+  <p>The below documentation outlines the 855 EDI file that represents a Purchase Order Acknowledgement.<p>
+
+      <p>As a wholesaler, you should supply an 855 once you receive an 850 to confirm acknowledgement of the Purchase
+        Order and provide any pre-shipment amendments.<p>
+
+          <p>See below for some example 855 documents that handle our accepted scenarios:</p>
+
+          <h2>1. Purchase Order Acknowledged w/ Detail</h2>
+
+          <p>This is an example of a Purchase Order that was acknowledged with no changes required. When this type of
+            855 is provided, no changes are made to the order on EzriRx, and we simply store the acknowledgement status
+            on our end.</p>
+
+          <p>Hover the highlighted elements to see more details:</p>
+
+          <code>ISA*00* *00* *12*1234567890 *ZZ*EZRIRX *170725*0400*U*00401*000000001*0*P*~
+            GS*PR*1234567890*EZRIRX*20180219*1719*1421*X*004010
+            ST*855*1001
+            BAK*00*AD*<span class="tooltip" title="EzriRx Order Number">R123456789</span>*<span class="tooltip"
+              title="Order Date">20180219</span>
+            REF*VR*<span class="tooltip" title="Vendor Order Number">12345678</span>
+            DTM*<span class="tooltip" title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span
+              class="tooltip" title="Date; Current Scheduled Delivery">20180219</span>
+            N1*<span class="tooltip" title="Entity Identifier Code; Ship To">ST</span>*<span class="tooltip"
+              title="Name; Pharmacy Name">Example Pharmacy, LLC</span>*<span class="tooltip"
+              title="Identification Code Qualifier; DEA number">11</span>*<span class="tooltip"
+              title="Identification Code; DEA Number">0018619</span>
+            <span class="tooltip" title="Line Item Data">PO1</span>*<span class="tooltip"
+              title="Assigned Identification">1</span>*<span class="tooltip" title="Quantity Ordered">3</span>*EA*<span
+              class="tooltip" title="Unit Price">39.99</span>*<span class="tooltip"
+              title="Vendor Catalog Number">VC</span>*<span class="tooltip" title="NDC Number">68462035594</span>
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Accepted">IA</span>*<span class="tooltip" title="Quantity">3</span>*EA*<span class="tooltip"
+              title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*68462035594
+            PO1*2*35*EA*99*VC*68462050166
+            ACK*IA*35*EA*067*20180219*VC*68462050166
+            CTT*2
+            SE*10*1001
+            GE*1*1421
+            IEA*1*000004438</code>
+
+          <p>Download: <a href="examples/ezrirx_855_example (AD).edi.txt" target="_blank">ezrirx_855_example
+              (AD).edi</a></p>
+
+
+          <h2>2. Purchase Order Acknowledged w/ Change</h2>
+
+          <p>This is an example of a Purchase Order that was acknowledged with changes required. When this type of 855
+            is provided, we scan the document and update the order on EzriRx to reflect the changes specified.</p>
+
+          <p>Hover the highlighted elements to see more details:</p>
+
+          <code>ISA*00* *00* *12*1234567890 *ZZ*EZRIRX *170725*0400*U*00401*000000001*0*P*~
+            GS*PR*1234567890*EZRIRX*20180219*1719*1421*X*004010
+            ST*855*1001
+            BAK*00*AC*<span class="tooltip" title="EzriRx Order Number">R123456789</span>*<span class="tooltip"
+              title="Order Date">20180219</span>
+            REF*VR*<span class="tooltip" title="Vendor ID Number">123456</span>
+            DTM*<span class="tooltip" title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span
+              class="tooltip" title="Date; Current Scheduled Delivery">20180219</span>
+            N1*<span class="tooltip" title="Entity Identifier Code; Ship To">ST</span>*<span class="tooltip"
+              title="Name; Pharmacy Name">Example Pharmacy, LLC</span>*<span class="tooltip"
+              title="Identification Code Qualifier; DEA number">11</span>*<span class="tooltip"
+              title="Identification Code; DEA Number">0018619</span>
+            <span class="tooltip" title="Line Item Data">PO1</span>*<span class="tooltip"
+              title="Assigned Identification">1</span>*<span class="tooltip" title="Quantity Ordered">3</span>*EA*<span
+              class="tooltip" title="Unit Price">39.99</span>*<span class="tooltip"
+              title="Vendor Catalog Number">VC</span>*<span class="tooltip" title="NDC Number">68462035594</span>
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Accepted">IA</span>*<span class="tooltip" title="Quantity">3</span>*EA*<span class="tooltip"
+              title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*68462035594
+            PO1*2*35*EA*99*VC*68462050166
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Changed (Quantity)">IQ</span>*<span class="tooltip" title="Quantity">30</span>*EA*<span
+              class="tooltip" title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*68462050166
+            PO1*3*2*EA*350.49*VC*00603221432
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Changed (Price)">IP</span>*<span class="tooltip" title="Quantity">2</span>*EA*<span
+              class="tooltip" title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*00603221432
+            PO1*4*4*EA*5.99*VC*62175011937
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Rejected">IR</span>*<span class="tooltip" title="Quantity">4</span>*EA*<span class="tooltip"
+              title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*62175011937
+            PO1*5*6*EA*91.32*VC*00603221521
+            <span class="tooltip" title="Line Item Acknowledgement">ACK</span>*<span class="tooltip"
+              title="Item Backordered">IB</span>*<span class="tooltip" title="Quantity">6</span>*EA*<span
+              class="tooltip" title="Date/Time Qualifier; Current Scheduled Delivery">067</span>*<span class="tooltip"
+              title="Date; Current Scheduled Delivery">20180219</span>*VC*00603221521
+            CTT*2
+            SE*10*1001
+            GE*1*1421
+            IEA*1*000004438</code>
+
+          <p>Download: <a href="examples/ezrirx_855_example (AC).edi.txt" target="_blank">ezrirx_855_example
+              (AC).edi</a></p>
+
+</body>
+
+</html>

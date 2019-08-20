@@ -1,0 +1,129 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - 820 EDI Documentation</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/tooltipster.min.css" />
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/js/jquery.tooltipster.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.tooltip').tooltipster();
+    });
+  </script>
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+    }
+
+    p {
+      line-height: 1.5em;
+    }
+
+    h1 {
+      line-height: 2em;
+    }
+
+    h1 small {
+      color: #666;
+      display: block;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      background: #f4f7fc;
+      border-left: 4px solid #bac4da;
+      padding: 8px 8px 8px 16px;
+    }
+
+    h2,
+    ul {
+      margin: 30px 0;
+    }
+
+    h3 {
+      color: #41495f;
+      margin: 30px 0;
+    }
+
+    ul li {
+      margin-bottom: 20px;
+    }
+
+    code {
+      display: block;
+      background: #1c2c4c;
+      color: #fff;
+      word-break: normal;
+      word-wrap: break-word;
+      tab-size: 4;
+      white-space: pre-line;
+      padding: .5rem;
+    }
+
+    .tooltip {
+      background: #334770;
+      border-radius: 2px;
+      box-shadow: 0 0 2px #000;
+    }
+
+    .tooltip:hover {
+      background: #6280a7;
+      cursor: help;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx - EDI 820 Payment Order/Remittance Advice <small>Documentation</small></h1>
+
+  <p>The below documentation outlines the 820 EDI file that represents a Payment Order/Remittance Advice.<p>
+
+      <p>This document is sent to wholesalers when payment is processed on an EzriRx order. On EzriRx, this typically
+        occurs when an order is fulfilled by the wholesaler, unless the order was placed using wholesaler-provided
+        credit, in which case the payment is processed when the pharmacy pays their invoice.<p>
+
+          <h2>820 Payment Order/Remittance Advice</h2>
+
+          <p>Here is an example 820 file that will be sent for each new processed payment: <a
+              href="examples/ezrirx_820_example.edi.txt" target="_blank">ezrirx_820_example.edi</a></p>
+
+          <p>Hover the highlighted elements to see more details:</p>
+
+          <code>ISA*00* *00* *ZZ*<span class="tooltip" title="Sender ISA ID">EZRIRX</span> *ZZ*<span class="tooltip"
+              title="Receiver ISA ID">1234567890</span> *170725*0400*U*00401*000000001*0*P*~
+            GS*RA*<span class="tooltip" title="Sender GS ID">EZRIRX</span>*<span class="tooltip"
+              title="Receiver GS ID">1234567890</span>*20180208*0400*1*X*004010~
+            ST*820*0001~
+            BPR*<span class="tooltip" title="Invoice">I</span>*<span class="tooltip"
+              title="Monetary amount/order total">1234.99</span>*C*ACH~
+            TRN*1*<span class="tooltip"
+              title="Reference identification; unique payment number">PJQRCG47</span><br />CUR*BY*USD~
+            DTM*097*20180208~
+            N1*PE*<span class="tooltip" title="Payee; wholesaler name">Newcastle United F.C</span>~
+            N1*PR*<span class="tooltip" title="Payer; pharmacy name">Sunderland A.F.C</span>*92*<span class="tooltip"
+              title="Pharmacy DEA number">AB1234567</span>~
+            ENT*1~
+            RMR*IV*<span class="tooltip" title="Reference number; invoice number">606266</span>**<span class="tooltip"
+              title="Monetary amount; invoice grand total">1234.99</span>~
+            REF*PO*<span class="tooltip" title="Order number">R276914531</span>~
+            SE*11*0001~
+            GE*1*1~
+            IEA*1*000000001~</code>
+</body>
+
+</html>

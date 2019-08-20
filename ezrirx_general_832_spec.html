@@ -1,0 +1,180 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - 832 EDI Specifications (Version 2)</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+    }
+
+    p {
+      line-height: 1.5em;
+    }
+
+    h1 {
+      line-height: 2em;
+    }
+
+    h1 small {
+      color: #666;
+      display: block;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      background: #ebebeb;
+      padding: 8px;
+    }
+
+    h2,
+    ul {
+      margin: 30px 0;
+    }
+
+    h3 {
+      color: #41495f;
+      margin: 30px 0;
+    }
+
+    ul li {
+      margin-bottom: 20px;
+    }
+
+    code {
+      display: block;
+      background: #e9effb;
+      word-break: normal;
+      word-wrap: break-word;
+      tab-size: 4;
+      white-space: pre-line;
+      padding: .5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx - EDI 832 General Inventory <small>Specifications</small></h1>
+
+  <p>The below documentation outlines the requirements for an 832 EDI file that represents a Price Catalog, or in EzriRx
+    parlance, a General Inventory.<p>
+
+      <p>If you are migrating from Version 1, please read the <a href="#migrating-from-v1">Migrating from Version 1</a>
+        section at the bottom of this document for migration instructions.</p>
+
+      <h2>Preface</h2>
+
+      <p>Before getting started, here are some things to know about EDI transmission that are specific to EzriRx:</p>
+
+      <ul>
+        <li>Your 832 can include your entire inventory, not just the changes since the last import.
+          Products that have different values since the last import will be overwritten with the new values,
+          and products with the same values will not be changed.</li>
+        <li>EzriRx can support multiple NDCs, as long as the SKU/product code is unique.
+          In your EzriRx inventory these duplicates will be displayed as completely separate products.</li>
+      </ul>
+
+      <h2>Your 832</h2>
+
+      <p>Here is an example file that satisfies EzriRx's requirements for an 832 EDI file that will successfully convert
+        to a General Inventory: <a href="examples/ezrirx_832_example_v2.edi.txt"
+          target="_blank">ezrirx_832_example_v2.edi</a></p>
+
+      <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
+        file provided above.</p>
+
+      <h3>File Requirements</h3>
+
+      <ul>
+        <li>Please provide a .edi or .832 file with a unique name for each import (timestamp is recommended, i.e.
+          "inventory_12345678.edi" or "inventory_12345678.832").</li>
+        <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
+          It can be named anything you choose.</li>
+        <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
+          hourly basis.</li>
+      </ul>
+
+      <h3>Header Segments</h3>
+
+      <code>ISA*00* *00* *ZZ*WHOLESALE *ZZ*EZRIRX
+        *170725*0400*U*00401*000000030*0*P*~<br />GS*SC*WHOLESALE*EZRIRX*20170727*0400*30*X*004010<br />ST*832*0030<br />BCT*PC**2******00<br />DTM*007*20170725<br />N1*DS*WHOLESALE
+        MEDICAL INC*11*RK0236403</code>
+
+      <p>These 6 header lines are used on our end to determine things like the type of EDI file is what we're expecting,
+        who this file is intended for, etc.</p>
+
+      <p>Here are some important details about the information that needs to be provided in these segments:</p>
+
+      <ul>
+        <li><strong>ISA:</strong> make sure the ISA states your vendor name and "EZRIRX" as shown in the example.</li>
+        <li><strong>ST:</strong> ensure that the value of ST01 is 832. ST02 can have any value.</li>
+        <li>
+          <strong>BCT:</strong>
+          <ul>
+            <li><strong>BCT01</strong> must be "PC" (Price Catalog)</li>
+            <li><strong>BCT02</strong> skip this; this is reserved for <a
+                href="https://s3.amazonaws.com/ezrirx/edi_docs/ezrirx_user_832_spec.html" target="_blank">User 832</a>
+            </li>
+            <li><strong>BCT03</strong> must be "2" (Version 2)</li>
+            <li><strong>BCT10</strong> must be "00" (Original)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p>Any segments not detailed above are required, but don't worry too much about the values you use for those, as
+        they are likely ignored by our parser.</p>
+
+      <h3>Line Item Segments</h3>
+
+      <code>LIN**VC*111226*N4*46672005310<br />G53*021<br />DTM*036*20190824<br />PID*F*RX***Butalbital,APAP&Caff Tabs
+        WHT<br />PO4*1*1*EA<br />CTP**AWP*.00<br />CTP**NET*39.42<br />N9*ZZ*32</code>
+
+      <p>The above 8 lines represent a line item/product, and these are the required segments:</p>
+
+      <ul>
+        <li><strong>LIN:</strong> Use this segment to specify SKU (<strong>VC</strong>) and NDC (<strong>N4</strong>).
+        </li>
+        <li><strong>G53:</strong> Use this segment to specify maintenance type. This line is currently ignored, as we do
+          changes only if there is a difference since last upload. Any value is accepted for this segment.</li>
+        <li><strong>DTM:</strong> Use this segment to specify Expiry Date (036) for the product in the format YYYYMMDD
+          (e.g. 20201225).</li>
+        <li><strong>PID:</strong> Use this segment to specify Product/Item Description, specifically the product name.
+        </li>
+        <li><strong>PO4:</strong> Use this segment to specify Item Physical Details. This line is currently ignored,
+          since we currently get this information from a third party source on a per-product basis. Any value is
+          accepted for this segment.</li>
+        <li><strong>CTP**AWP:</strong> Use this segment to specify Average Wholesale Price. This line is currently
+          ignored, since we currently get this information from a third party source on a per-product basis. Any value
+          is accepted for this segment.</li>
+        <li><strong>CTP**NET:</strong> Use this segment to specify Unit Price.</li>
+        <li><strong>N9*ZZ:</strong> Use this segment to specify Quantity.</li>
+      </ul>
+
+      <h3>Footer Segments</h3>
+
+      <code>CTT*1584<br />SE*11114*0030<br />GE*1*30<br />IEA*1*000000030</code>
+
+      <p>These segments are required, but ultimately ignored by our parser.</p>
+
+      <h3 id="migrating-from-v1">Migrating from Version 1</h3>
+
+      <p>Please follow these instructions to successfully migrate your 832 file from Version 1 to Version 2:</p>
+
+      <ul>
+        <li>Simply update your <strong>BCT</strong> line as described in the Header Segments section in this document.
+        </li>
+      </ul>
+</body>
+
+</html>
