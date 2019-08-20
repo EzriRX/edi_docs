@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>EzriRx - 850 EDI Documentation</title>
+  <title>EzriRx - 860 EDI Documentation</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -89,42 +89,37 @@
 </head>
 
 <body>
-  <h1>EzriRx - EDI 850 Purchase Order <small>Documentation</small></h1>
+  <h1>EzriRx - EDI 860 Purchase Order Change Request <small>Documentation</small></h1>
 
-  <p>The below documentation outlines the 850 EDI file that represents a Purchase Order. This document is sent to
-    wholesalers when an EzriRx order is processed.<p>
+  <p>The below documentation outlines the 860 EDI file that represents a Purchase Order Change Request. This document is
+    sent to
+    wholesalers when an EzriRx order is edited by the pharmacy.<p>
 
-      <h2>850 Purchase Order</h2>
+      <h2>860 Purchase Order Change Request</h2>
 
-      <p>Here is an example 850 file that will be sent for each new order: <a href="examples/ezrirx_850_example.edi.txt"
-          target="_blank">ezrirx_850_example.edi</a></p>
+      <p>Here is an example 860 file that will be sent for each new order: <a href="examples/860_example.edi.txt"
+          target="_blank">ezrirx_860_example.edi</a></p>
 
       <p>Hover the highlighted elements to see more details:</p>
 
-      <code>ISA*00* *00* *ZZ*<span class="tooltip" title="Sender ID">EZRIRX</span> *12*<span class="tooltip"
-          title="Receiver ID">1234567890</span> *180312*1215*U*00401*000000005*0*T*>~
-        GS*PO*EZRIRX*1234567890*20180312*1215*1*X*004010~
-        ST*850*0001~
-        BEG*00*<span class="tooltip" title="New Order">NE</span>*<span class="tooltip"
-          title="EzriRx Order Number">R601995281</span>**<span class="tooltip" title="Order Date">20180312</span>~
-        CUR*BY*USD~
-        REF*PO*R601995281~
-        DTM*002*20180312~
-        TD5*****OVERNIGHT*******CX~
-        N1*ST*Example Pharmacy*91*<span class="tooltip" title="External Customer ID">123456</span>~
-        N2*Example Pharmacy~
-        N3*123 Drury Lane~
-        N4*Brooklyn*NY*11218*USA~
-        PO1*1*<span class="tooltip" title="Product Quantity">10</span>*EA*<span class="tooltip"
-          title="Product Price">19.99</span>**VC*<span class="tooltip" title="Product ID">692437</span>*N4*<span
-          class="tooltip" title="Product NDC">00472040250</span>*~
-        PID*F****<span class="tooltip" title="Product Name/Description">CLOBETASOL 0.05% SOLUTION</span>~
-        PO1*2*6*EA*3.99**VC*692551*N4*76518003050*~
-        PID*F****PEDIA POLY VITE DROPS~
-        CTT*2*16~
-        SE*15*0001~
-        GE*1*1~
-        IEA*1*000000005~</code>
+      <code>ISA*00* *00* *ZZ*EZRIRX *12*1234567890 *180312*1215*U*00401*000000005*0*T*>
+        GS*PO*EZRIRX*1234567890*20180312*1215*1*X*004010
+        ST*860*0001
+        BCH*<span class="tooltip" title="01: Cancellation, 04: Change">04</span>*SA*<span class="tooltip"
+          title="EzriRx Order number">R601995281</span>*20190716
+        DTM*007*20190716
+        N1*BY*Example Pharmacy*91*123456
+        N2*Example Pharmacy
+        N3*123 Drury Lane
+        N4*Brooklyn*NY*11218*USA
+        POC*1*<span class="tooltip" title="RZ: Replace All Values">RZ</span>***<span class="tooltip"
+          title="New Quantity">9</span>**<span class="tooltip" title="Unit Price">12.34</span>**<span class="tooltip"
+          title="NDC">N4</span>*00472040250
+        POC*2*RZ***1**23.45**N4*76518003050
+        CTT*2*16
+        SE*11*0001
+        GE*1*1
+        IEA*1*000000005</code>
 </body>
 
 </html>
