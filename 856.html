@@ -70,7 +70,6 @@
       word-break: normal;
       word-wrap: break-word;
       tab-size: 4;
-      white-space: pre-line;
       padding: .5rem;
     }
 
@@ -111,8 +110,8 @@
         already:</p>
 
       <ul>
-        <li>Please provide a .edi file with a unique name for each import - a timestamp is recommended (i.e.
-          "856_1518538502.edi").</li>
+        <li>Please provide a .edi or .856 file with a unique name for each import - a timestamp is recommended (i.e.
+          "856_1518538502.edi" or "856_1518538502.856").</li>
         <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
           It can be named anything you choose.</li>
         <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
@@ -200,7 +199,8 @@ Product/Service ID Qualifier; NDC in 5-4-2 format">N4</span>*<span class="toolti
           title="Date/Time Qualifier; Lot Number Expiration">208</span>*<span class="tooltip"
           title="Date; Lot Number/Product Expiration Date">20201130</span><br />N1*MF*<span class="tooltip"
           title="Manufacturer Name">AMNEAL PHARMACEUTICALS LLC</span><br />N3*118 BEAVER TRAIL*MAIL CODE
-        11070<br />N4*GLASGOW*KY*42141-0000*USA<br />HL*5*2*I</code>
+        11070<br />N4*GLASGOW*KY*42141-0000*USA<br /><span class="tooltip"
+          title="Transaction Date (DSCSA)">REF*7C</span>*20190304<br />HL*5*2*I</code>
 
       <p>Note: Please omit the HL segment from your final line item segment, as is demonstrated in the example file
         linked above.</p>
