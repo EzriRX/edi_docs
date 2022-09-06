@@ -91,20 +91,22 @@
 <body>
   <h1>EzriRx - EDI 820 Payment Order/Remittance Advice <small>Documentation</small></h1>
 
-  <p>The below documentation outlines the 820 EDI file that represents a Payment Order/Remittance Advice.<p>
+  <p>The below documentation outlines the 820 EDI file that represents a Payment Order/Remittance Advice.
+  <p>
 
-      <p>This document is sent to wholesalers when payment is processed on an EzriRx order. On EzriRx, this typically
-        occurs when an order is fulfilled by the wholesaler, unless the order was placed using wholesaler-provided
-        credit, in which case the payment is processed when the pharmacy pays their invoice.<p>
+  <p>This document is sent to wholesalers when payment is processed on an EzriRx order. On EzriRx, this typically
+    occurs when an order is fulfilled by the wholesaler, unless the order was placed using wholesaler-provided
+    credit, in which case the payment is processed when the pharmacy pays their invoice.
+  <p>
 
-          <h2>820 Payment Order/Remittance Advice</h2>
+  <h2>820 Payment Order/Remittance Advice</h2>
 
-          <p>Here is an example 820 file that will be sent for each new processed payment: <a
-              href="examples/820_example.edi.txt" target="_blank">ezrirx_820_example.edi</a></p>
+  <p>Here is an example 820 file that will be sent for each new processed payment: <a
+      href="examples/820_example.edi.txt" target="_blank">ezrirx_820_example.edi</a></p>
 
-          <p>Hover the highlighted elements to see more details:</p>
+  <p>Hover the highlighted elements to see more details:</p>
 
-          <code>ISA*00* *00* *ZZ*<span class="tooltip" title="Sender ISA ID">EZRIRX</span> *ZZ*<span class="tooltip"
+  <code>ISA*00* *00* *ZZ*<span class="tooltip" title="Sender ISA ID">EZRIRX</span> *ZZ*<span class="tooltip"
               title="Receiver ISA ID">1234567890</span> *170725*0400*U*00401*000000001*0*P*~
             GS*RA*<span class="tooltip" title="Sender GS ID">EZRIRX</span>*<span class="tooltip"
               title="Receiver GS ID">1234567890</span>*20180208*0400*1*X*004010~
@@ -114,8 +116,8 @@
             TRN*1*<span class="tooltip"
               title="Reference identification; unique payment number">PJQRCG47</span><br />CUR*BY*USD~
             DTM*097*20180208~
-            N1*PE*<span class="tooltip" title="Payee; wholesaler name">Newcastle United F.C</span>~
-            N1*PR*<span class="tooltip" title="Payer; pharmacy name">Sunderland A.F.C</span>*92*<span class="tooltip"
+            N1*PE*<span class="tooltip" title="Payee; wholesaler name">Test Wholesaler</span>~
+            N1*PR*<span class="tooltip" title="Payer; pharmacy name">Test Pharmacy</span>*92*<span class="tooltip"
               title="Pharmacy DEA number">AB1234567</span>~
             ENT*1~
             RMR*IV*<span class="tooltip" title="Reference number; invoice number">606266</span>**<span class="tooltip"
