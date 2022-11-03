@@ -1,0 +1,201 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - 832 EDI Specifications (Version 2)</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+    }
+
+    p {
+      line-height: 1.5em;
+    }
+
+    h1 {
+      line-height: 2em;
+    }
+
+    h1 small {
+      color: #666;
+      display: block;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      background: #ebebeb;
+      padding: 8px;
+    }
+
+    h2,
+    ul {
+      margin: 30px 0;
+    }
+
+    h3 {
+      color: #41495f;
+      margin: 30px 0;
+    }
+
+    ul li {
+      margin-bottom: 20px;
+    }
+
+    code {
+      display: block;
+      background: #e9effb;
+      word-break: normal;
+      word-wrap: break-word;
+      tab-size: 4;
+      padding: .5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx - EDI 812 Credit/Debit Adjustment <small>Specifications</small></h1>
+
+  <p>The below documentation outlines the requirements for an 812 EDI file that represents a Credit/Debit Adjustment. <p>
+
+  <p>As a wholesaler, you can supply an 812 to represent a Credit/Debit Adjustment. It can be used to communicate when a deduction (short pay) has occurred or a credit or debit is expected. It identifies and contains the details and amounts covering exceptions, adjustments, credits, or debits.</p>
+
+  <p>What are 812 Credit/Debit Adjustment used for?</p>
+
+  <ol>
+    <li>Items were defective, damaged or spoiled</li>
+    <li>Items will be or have been returned</li>
+    <li>The wrong products were sent</li>
+    <li>Products were not received</li>
+    <li>The number of items delivered was more or less than the amount ordered</li>
+    <li>An adjustment or deduction has occurred for rebates or allowances</li>
+    <li>There was a pricing error on the original PO or invoice</li>
+  </ol>
+
+  <h2>1. Returns + Price Adjustments</h2>
+
+  <p>Here is an example file that satisfies EzriRx's requirements for an 812 EDI file which represents Returns + Price Adjustments: <a href="examples/812_returns_price_adjustments_example.edi.txt" target="_blank">ezrirx_812_returns_price_adjustments_example.edi</a></p>
+
+  <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example file provided above.</p>
+
+  <h3>File Requirements</h3>
+
+  <p>Note: if you provide us with an 832 or 856, you are likely following these requirements already:</p>
+
+  <ul>
+    <li>Please provide a .edi file with a unique name for each import - a timestamp is recommended (i.e. "812_1518538502.edi").</li>
+    <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files. It can be named anything you choose.</li>
+    <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an hourly basis.</li>
+  </ul>
+
+  <code>
+    ISA*00* *00* *12*1234567890 *ZZ*EZRIRX *190702*2235*U*00401*010000000*0*P*~<br />
+    GS*IN*1234567890*EZRIRX*20210602*2235*4006*X*004010<br />
+    ST*812*0001<br />
+    BCD*20201229*7813761*O*34*C**72704210*R123456789<br />
+    N9*IA*00001768<br />
+    CDD*72*C**34***1*EA**UCP*0.34<br />
+    LIN**ND*12345678910*VP*1335692<br />
+    N9*RZ*PRICE ADJUSTMENT<br />
+    CDD*72*C**350***1*EA**UCP*3.5<br />
+    LIN**ND*12345678911*VP*1335693<br />
+    N9*RZ*PRICE ADJUSTMENT<br />
+    SE*10*0001<br />
+    GE*1*3180<br />
+    IEA*1*010000000
+  </code>
+
+  <p>Here are some important details about the information that needs to be provided in these segments:</p>  
+
+  <ul>
+    <li><strong>ISA:</strong> make sure the ISA states your vendor name and "EZRIRX" as shown in the example.</li>
+    <li><strong>ST:</strong> ensure that the value of ST01 is 812. ST02 can have any value.</li>
+    <li>
+      <strong>BCD:</strong>
+      <ul>
+        <li><strong>BCD01</strong> Credit/Debit adjustment date. (YYYYMMDD)</li>
+        <li>
+          <strong>BCD03</strong> Transaction Handling Code. Code designating the action to be taken. Must be O for Returns + Price Adjustments
+          <ul>
+            <li>D Make Payment Only</li>
+            <li>E Debit/Credit Advice with Remittance Detail</li>
+            <li>J Payment Requested (Adjustment to Account)</li>
+            <li>K Reimbursement to Follow</li>
+            <li>L Apply on Account</li>
+            <li>O Deduct from Next Remittance</li>
+            <li>P Prenotification of Future Transfers</li>
+            <li>Q Credit Due, Payment Being Issued</li>
+            <li>S Single Debit Authorization</li>
+            <li>U Split Payment and Remittance</li>
+          </ul>
+        </li>
+        <li><strong>BCD04</strong> Net amount of this complete transaction.</li>
+        <li>
+          <strong>BCD05</strong> Credit/Debit Flag Code. Code indicating whether amount is a credit or debit. Must be C for Returns + Price Adjustments.
+          <ul>
+            <li>C for Credit transaction</li>
+            <li>D for Debit transaction</li>
+          </ul>
+        </li>
+        <li><strong>BCD08</strong> Ezrirx Order Number. (Example Order Number: R123456789)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>CCD Returned Item Detail Segments</h3>
+
+  <code>CDD*72*C**34***1*EA**UCP*0.34<br />LIN**ND*12345678910*VP*1335692<br />N9*RZ*PRICE ADJUSTMENT~</code>
+
+  <ul>
+    <li>
+      <strong>CDD01:</strong> Adjustment Reason Code. Must be 72 for Returns + Price Adjustments.
+      <ul>
+        <li>72 Authorized Return</li>
+        <li>79 Cooperative Advertising 81 Credit as Agreed</li>
+        <li>81 Credit as Agreed</li>
+        <li>84 Deviation from Order Date (early shipment)</li>
+        <li>86 Duplicate Payment</li>
+        <li>87 Duplicate Shipment</li>
+        <li>99 Late Shipment of Goods</li>
+        <li>A2 Misshipped (Wrong Product Received)</li>
+        <li>A5 Overage</li>
+        <li>B4 Refurbishing Charge</li>
+        <li>B7 Restocking Charge</li>
+        <li>D3 Unauthorized Deduction</li>
+        <li>D7 Cost Associated with Reworked Material E9 Order Cancelled</li>
+        <li>E9 Order Cancelled</li>
+      </ul>
+    </li>
+    <li>
+      <strong>CDD02</strong> Must be C for Returns + Price Adjustments.
+      <ul>
+        <li>C Credit</li>
+        <li>D Debit</li>
+      </ul>
+    </li>
+    <li><strong>CDD04:</strong> Total Credit Amount.</li>
+    <li><strong>CDD07:</strong> Credit/Debit Quantity.</li>
+    <li><strong>CDD11:</strong> Unit Price.</li>
+    <li><strong>LIN02: </strong> Use this segment to specify NDC (ND).</li>
+    <li><strong>LIN04: </strong> Use this segment to specify SKU (VP) - Vendor Item Number.</li>
+    <li><strong>N901: </strong> Reference Identification Qualifier. (RZ)</li>
+  </ul>
+
+  <h3>Footer Segments</h3>
+
+  <code>SE*10*0001<br />GE*1*3180<br />IEA*1*010000000</code>
+
+  <p>These segments are required, but ultimately ignored by our parser.</p>
+</body>
+
+</html>
