@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EzriRx - User 832 EDI Specifications</title>
-  <meta name="description" content="">
+  <meta name="description" content="EzriRx EDI 832 User Price List Documentation and Specifications">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style type="text/css">
@@ -14,29 +14,43 @@
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
       font-weight: 400;
       margin: 2% 3%;
-    }
-
-    p {
-      line-height: 1.5em;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
     h1 {
-      line-height: 2em;
+      color: #2c3e50;
+      line-height: 1.4em;
+      margin-bottom: 10px;
     }
 
     h1 small {
-      color: #666;
+      color: #7f8c8d;
       display: block;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 24px;
       line-height: 1.3em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     h2 {
-      background: #f4f7fc;
-      border-left: 4px solid #bac4da;
-      padding: 8px 8px 8px 16px;
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin: 40px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    h3 {
+      color: #34495e;
+      margin: 30px 0 15px 0;
+    }
+
+    p {
+      line-height: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     h2,
@@ -44,13 +58,9 @@
       margin: 30px 0;
     }
 
-    h3 {
-      color: #41495f;
-      margin: 30px 0;
-    }
-
     ul li {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      line-height: 1.5em;
     }
 
     code {
@@ -61,7 +71,12 @@
       word-wrap: break-word;
       tab-size: 4;
       white-space: pre-line;
-      padding: .5rem;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 20px 0;
     }
 
     .tooltip {
@@ -74,105 +89,165 @@
       background: #6280a7;
       cursor: help;
     }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .contact-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+
+    .contact-info h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .contact-info p {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .contact-info a {
+      color: #856404;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
+  <a href="index.html" class="back-link">← Back to Documentation</a>
+  
   <h1>EzriRx - EDI 832 User Price List <small>Specifications</small></h1>
 
   <p>The below documentation outlines the requirements for an 832 EDI file that represents a Price Catalog for a
     specific EzriRx User. You can use this to give your customers specific prices on the products in your <a
-      href="https://s3.amazonaws.com/ezrirx/edi_docs/ezrirx_general_832_spec_v2.html" target="_blank">General 832</a>.
-    <p>
+      href="832.html" target="_blank">General 832</a>.</p>
 
-      <h2>Preface</h2>
+  <h2>Preface</h2>
 
-      <p>Before getting started, here are some things to know about this EDI file that are specific to EzriRx:</p>
+  <p>Before getting started, here are some things to know about this EDI file that are specific to EzriRx:</p>
 
+  <ul>
+    <li>You must provide a <a href="832.html" target="_blank">General 832</a> before you can provide this 832, even if you only wish to provide custom
+      prices for each of your customers. We use the General 832 to import your products, and then read your User
+      832s to save the custom prices on those products.</li>
+    <li>You will need to provide a copy of this User 832 for each customer you wish to give custom prices to, each
+      with a unique file name.</li>
+    <li>Your User 832 file(s) must be placed in the same directory in your FTP server as the General 832. As we do
+      for General 832s, we scan for new files on an hourly basis.</li>
+    <li>Your User 832 file(s) must be dropped at the same time as your General 832. We process your General 832
+      first, and your User 832(s) subsequently.</li>
+  </ul>
+
+  <h2>Your 832 (User Price List)</h2>
+
+  <p>Here is an example file that satisfies EzriRx's requirements for an 832 EDI file that will successfully convert
+    to a User Price List: <a href="examples/832_user_example.edi.txt"
+      target="_blank">ezrirx_user_832_example.edi</a></p>
+
+  <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
+    file provided above.</p>
+
+  <h3>Header Segments</h3>
+
+  <code>ISA*00* *00* *ZZ*WHOLESALE *ZZ*EZRIRX
+*170725*0400*U*00401*000000030*0*P*~
+GS*SC*WHOLESALE*EZRIRX*20170727*0400*30*X*004010
+ST*832*0030
+BCT*PC*1234*1******04
+DTM*007*20170725
+N1*DS*WHOLESALE MEDICAL INC*11*RK0236403</code>
+
+  <p>These 6 header lines are used on our end to determine things like the type of EDI file is what we're expecting,
+    who this file is intended for, etc.</p>
+
+  <p>Here are some important details about the information that needs to be provided in these segments:</p>
+
+  <ul>
+    <li><strong>ISA:</strong> make sure the ISA states your vendor name and "EZRIRX" as shown in the example.</li>
+    <li><strong>ST:</strong> ensure that the value of ST01 is 832. ST02 can have any value.</li>
+    <li>
+      <strong>BCT:</strong>
       <ul>
-        <li>You must provide a <a href="https://s3.amazonaws.com/ezrirx/edi_docs/ezrirx_general_832_spec_v2.html"
-            target="_blank">General 832</a> before you can provide this 832, even if you only wish to provide custom
-          prices for each of your customers. We use the General 832 to import your products, and then read your User
-          832s to save the custom prices on those products.</li>
-        <li>You will need to provide a copy of this User 832 for each customer you wish to give custom prices to, each
-          with a unique file name.</li>
-        <li>Your User 832 file(s) must be placed in the same directory in your FTP server as the General 832. As we do
-          for General 832s, we scan for new files on an hourly basis.</li>
-        <li>Your User 832 file(s) must be dropped at the same time as your General 832. We process your General 832
-          first, and your User 832(s) subsequently.</li>
+        <li><strong>BCT01</strong> must be "PC" (Price Catalog)</li>
+        <li><strong>BCT02</strong> must be the customer identifier in your system that corresponds with the user
+          this file is designated for. Note: you must provide this in customer settings inside EzriRx under
+          "External customer ID".</li>
+        <li><strong>BCT03</strong> must be "2" (Version 2)</li>
+        <li><strong>BCT10</strong> must be "04" (Change)</li>
       </ul>
+    </li>
+  </ul>
 
-      <h2>Your 832 (User Price List)</h2>
+  <p>Any segments not detailed above are required, but don't worry too much about the values you use for those, as
+    they are likely ignored by our parser.</p>
 
-      <p>Here is an example file that satisfies EzriRx's requirements for an 832 EDI file that will successfully convert
-        to a User Price List: <a href="examples/832_user_example.edi.txt"
-          target="_blank">ezrirx_user_832_example.edi</a></p>
+  <h3>Line Item Segments</h3>
 
-      <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
-        file provided above.</p>
+  <code>LIN**VC*111226*N4*46672005310
+G53*021
+DTM*036*20190824
+PID*F*RX***Butalbital,APAP&Caff Tabs WHT
+PO4*1*1*EA
+CTP**AWP*.00
+CTP**NET*35.99
+N9*ZZ*32</code>
 
-      <h3>Header Segments</h3>
+  <p>The above 8 lines represent a line item/product, and these are the required segments:</p>
 
-      <code>ISA*00* *00* *ZZ*WHOLESALE *ZZ*EZRIRX
-        *170725*0400*U*00401*000000030*0*P*~<br />GS*SC*WHOLESALE*EZRIRX*20170727*0400*30*X*004010<br />ST*832*0030<br />BCT*PC*1234*1******04<br />DTM*007*20170725<br />N1*DS*WHOLESALE
-        MEDICAL INC*11*RK0236403</code>
+  <ul>
+    <li><strong>LIN:</strong> Use this segment to specify SKU (<strong>VC</strong>) and NDC (<strong>N4</strong>).
+    </li>
+    <li><strong>G53:</strong> Use this segment to specify maintenance type. This line is currently ignored, as we do
+      changes only if there is a difference since last upload. Any value is accepted for this segment.</li>
+    <li><strong>DTM:</strong> Use this segment to specify Expiry Date (036) for the product in the format YYYYMMDD
+      (e.g. 20201225).</li>
+    <li><strong>PID:</strong> Use this segment to specify Product/Item Description, specifically the product name.
+    </li>
+    <li><strong>PO4:</strong> Use this segment to specify Item Physical Details. This line is currently ignored,
+      since we currently get this information from a third party source on a per-product basis. Any value is
+      accepted for this segment.</li>
+    <li><strong>CTP**AWP:</strong> Use this segment to specify Average Wholesale Price. This line is currently
+      ignored, since we currently get this information from a third party source on a per-product basis. Any value
+      is accepted for this segment.</li>
+    <li><strong>CTP**NET:</strong> Use this segment to specify Unit Price. <strong>This is where you specify the
+        custom price for this product for this user.</strong></li>
+    <li><strong>N9*ZZ:</strong> Use this segment to specify Quantity.</li>
+  </ul>
 
-      <p>These 6 header lines are used on our end to determine things like the type of EDI file is what we're expecting,
-        who this file is intended for, etc.</p>
+  <h3>Footer Segments</h3>
 
-      <p>Here are some important details about the information that needs to be provided in these segments:</p>
+  <code>CTT*1584
+SE*11114*0030
+GE*1*30
+IEA*1*000000030</code>
 
-      <ul>
-        <li><strong>ISA:</strong> make sure the ISA states your vendor name and "EZRIRX" as shown in the example.</li>
-        <li><strong>ST:</strong> ensure that the value of ST01 is 832. ST02 can have any value.</li>
-        <li>
-          <strong>BCT:</strong>
-          <ul>
-            <li><strong>BCT01</strong> must be "PC" (Price Catalog)</li>
-            <li><strong>BCT02</strong> must be the customer identifier in your system that corresponds with the user
-              this file is designated for. Note: you must provide this in customer settings inside EzriRx under
-              "External customer ID".</li>
-            <li><strong>BCT03</strong> must be "2" (Version 2)</li>
-            <li><strong>BCT10</strong> must be "04" (Change)</li>
-          </ul>
-        </li>
-      </ul>
+  <p>These segments are required, but ultimately ignored by our parser.</p>
 
-      <p>Any segments not detailed above are required, but don't worry too much about the values you use for those, as
-        they are likely ignored by our parser.</p>
+  <div class="contact-info">
+    <h3>Questions & Support</h3>
+    <p>For technical questions, implementation guidance, or any other EDI-related inquiries, please reach out to us.</p>
+    <p><strong>Contact:</strong> <a href="mailto:edi@ezrirx.com">edi@ezrirx.com</a></p>
+  </div>
 
-      <h3>Line Item Segments</h3>
-
-      <code>LIN**VC*111226*N4*46672005310<br />G53*021<br />DTM*036*20190824<br />PID*F*RX***Butalbital,APAP&Caff Tabs
-        WHT<br />PO4*1*1*EA<br />CTP**AWP*.00<br />CTP**NET*35.99<br />N9*ZZ*32</code>
-
-      <p>The above 8 lines represent a line item/product, and these are the required segments:</p>
-
-      <ul>
-        <li><strong>LIN:</strong> Use this segment to specify SKU (<strong>VC</strong>) and NDC (<strong>N4</strong>).
-        </li>
-        <li><strong>G53:</strong> Use this segment to specify maintenance type. This line is currently ignored, as we do
-          changes only if there is a difference since last upload. Any value is accepted for this segment.</li>
-        <li><strong>DTM:</strong> Use this segment to specify Expiry Date (036) for the product in the format YYYYMMDD
-          (e.g. 20201225).</li>
-        <li><strong>PID:</strong> Use this segment to specify Product/Item Description, specifically the product name.
-        </li>
-        <li><strong>PO4:</strong> Use this segment to specify Item Physical Details. This line is currently ignored,
-          since we currently get this information from a third party source on a per-product basis. Any value is
-          accepted for this segment.</li>
-        <li><strong>CTP**AWP:</strong> Use this segment to specify Average Wholesale Price. This line is currently
-          ignored, since we currently get this information from a third party source on a per-product basis. Any value
-          is accepted for this segment.</li>
-        <li><strong>CTP**NET:</strong> Use this segment to specify Unit Price. <strong>This is where you specify the
-            custom price for this product for this user.</strong></li>
-        <li><strong>N9*ZZ:</strong> Use this segment to specify Quantity.</li>
-      </ul>
-
-      <h3>Footer Segments</h3>
-
-      <code>CTT*1584<br />SE*11114*0030<br />GE*1*30<br />IEA*1*000000030</code>
-
-      <p>These segments are required, but ultimately ignored by our parser.</p>
 </body>
 
 </html>

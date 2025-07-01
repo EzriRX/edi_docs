@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EzriRx - 810 EDI Documentation</title>
-  <meta name="description" content="">
+  <meta name="description" content="EzriRx EDI 810 Invoice Documentation and Specifications">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" type="text/css"
@@ -25,29 +25,43 @@
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
       font-weight: 400;
       margin: 2% 3%;
-    }
-
-    p {
-      line-height: 1.5em;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
     h1 {
-      line-height: 2em;
+      color: #2c3e50;
+      line-height: 1.4em;
+      margin-bottom: 10px;
     }
 
     h1 small {
-      color: #666;
+      color: #7f8c8d;
       display: block;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 24px;
       line-height: 1.3em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     h2 {
-      background: #f4f7fc;
-      border-left: 4px solid #bac4da;
-      padding: 8px 8px 8px 16px;
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin: 40px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    h3 {
+      color: #34495e;
+      margin: 30px 0 15px 0;
+    }
+
+    p {
+      line-height: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     h2,
@@ -55,13 +69,9 @@
       margin: 30px 0;
     }
 
-    h3 {
-      color: #41495f;
-      margin: 30px 0;
-    }
-
     ul li {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      line-height: 1.5em;
     }
 
     code {
@@ -72,7 +82,12 @@
       word-wrap: break-word;
       tab-size: 4;
       white-space: pre-line;
-      padding: .5rem;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 20px 0;
     }
 
     .tooltip {
@@ -85,72 +100,121 @@
       background: #6280a7;
       cursor: help;
     }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .contact-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+
+    .contact-info h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .contact-info p {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .contact-info a {
+      color: #856404;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
+  <a href="index.html" class="back-link">← Back to Documentation</a>
+  
   <h1>EzriRx - EDI 810 Invoice <small>Specifications</small></h1>
 
   <p>The below documentation outlines the 810 EDI file that represents an Invoice.</p>
 
   <p>As a wholesaler, you can supply an 810 once you receive an 850 to represent the invoice of the Purchase Order. It
     can be used to confirm final purchase price and quantity of each line item. You can also use your 810 to provide a
-    custom invoice number that will be saved and passed back in subsequent EDI files sent to you.<p>
+    custom invoice number that will be saved and passed back in subsequent EDI files sent to you.</p>
 
-      <h2>Your 810 Invoice</h2>
+  <h2>Your 810 Invoice</h2>
 
-      <p>Here is an example file that satisfies EzriRx's requirements for an 810 EDI file: <a
-          href="examples/810_example.edi.txt" target="_blank">ezrirx_810_example.edi</a></p>
+  <p>Here is an example file that satisfies EzriRx's requirements for an 810 EDI file: <a
+      href="examples/810_example.edi.txt" target="_blank">ezrirx_810_example.edi</a></p>
 
-      <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
-        file provided above.</p>
+  <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
+    file provided above.</p>
 
-      <h3>File Requirements</h3>
+  <h3>File Requirements</h3>
 
-      <p><strong>Note:</strong> if you provide us with an 832 or 856, you are likely following these requirements
-        already:</p>
+  <p><strong>Note:</strong> if you provide us with an 832 or 856, you are likely following these requirements
+    already:</p>
 
-      <ul>
-        <li>Please provide a .edi file with a unique name for each import - a timestamp is recommended (i.e.
-          "856_1518538502.edi").</li>
-        <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
-          It can be named anything you choose.</li>
-        <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
-          hourly basis.</li>
-      </ul>
+  <ul>
+    <li>Please provide a .edi file with a unique name for each import - a timestamp is recommended (i.e.
+      "856_1518538502.edi").</li>
+    <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
+      It can be named anything you choose.</li>
+    <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
+      hourly basis.</li>
+  </ul>
 
-      <code>ISA*00* *00* *12*1234567890 *ZZ*EZRIRX *190702*2235*U*00401*010000826*0*P*>~
-        GS*IN*1234567890*EZRIRX*20190702*2235*4006*X*004010~
-        ST*810*3087~
-        BIG*20190702*62413813*20190702****DI~
-        REF*DP*09~
-        N1*ST*EXAMPLE PHARMACY*91*123456~
-        N3*1234 DRURY LANE STE 1A~
-        N4*NEW ORLEANS*LA*701291800~
-        N1*BT*EXAMPLE PHARMACY~
-        N3*1234 DRURY LANE STE 1A~
-        N4*NEW ORLEANS*LA*701291800~
-        N1*RE*Example Wholesaler*91*1234567890~
-        N3*P.O. BOX 123456~
-        N4*NEW YORK*NY*10039~
-        ITD*01*3****20190801*30*****NET 30 DAYS~
-        IT1*1*1*EA*11.61**VN*500968*N4*45802086803~
-        PID*F***510GM*POLYETHYLENE GLYCOL 3350 (OTC)~
-        IT1*2*2*EA*7.26**VN*390946*N4*50383066730~
-        PID*F***30GM*LIDOCAINE 2.5%/PRILOCAINE 2.5%~
-        IT1*3*5*EA*2.41**VN*601887*N4*51672407008~
-        PID*F***120ML*CETIRIZINE HCL OS 1MG/1ML~
-        IT1*4*1*EA*22.91**VN*323608*N4*57237003105~
-        PID*F***500*AMOXICILLIN 500MG~
-        IT1*5*1*EA*33.43**VN*602335*N4*51672127304~
-        PID*F***60ML*FLUOCINONIDE SOL 0.05%~
-        IT1*6*1*EA*24.92**VN*317346*N4*00527134301~
-        PID*F***100*LEVOTHYROXINE SODIUM 75MCG~
-        TDS*11944~
-        CTT*6~
-        SE*29*3087~
-        GE*1*4006~
-        IEA*1*010000826~</code>
+  <code>ISA*00* *00* *12*1234567890 *ZZ*EZRIRX *190702*2235*U*00401*010000826*0*P*>~
+GS*IN*1234567890*EZRIRX*20190702*2235*4006*X*004010~
+ST*810*3087~
+BIG*20190702*62413813*20190702****DI~
+REF*DP*09~
+N1*ST*EXAMPLE PHARMACY*91*123456~
+N3*1234 DRURY LANE STE 1A~
+N4*NEW ORLEANS*LA*701291800~
+N1*BT*EXAMPLE PHARMACY~
+N3*1234 DRURY LANE STE 1A~
+N4*NEW ORLEANS*LA*701291800~
+N1*RE*Example Wholesaler*91*1234567890~
+N3*P.O. BOX 123456~
+N4*NEW YORK*NY*10039~
+ITD*01*3****20190801*30*****NET 30 DAYS~
+IT1*1*1*EA*11.61**VN*500968*N4*45802086803~
+PID*F***510GM*POLYETHYLENE GLYCOL 3350 (OTC)~
+IT1*2*2*EA*7.26**VN*390946*N4*50383066730~
+PID*F***30GM*LIDOCAINE 2.5%/PRILOCAINE 2.5%~
+IT1*3*5*EA*2.41**VN*601887*N4*51672407008~
+PID*F***120ML*CETIRIZINE HCL OS 1MG/1ML~
+IT1*4*1*EA*22.91**VN*323608*N4*57237003105~
+PID*F***500*AMOXICILLIN 500MG~
+IT1*5*1*EA*33.43**VN*602335*N4*51672127304~
+PID*F***60ML*FLUOCINONIDE SOL 0.05%~
+IT1*6*1*EA*24.92**VN*317346*N4*00527134301~
+PID*F***100*LEVOTHYROXINE SODIUM 75MCG~
+TDS*11944~
+CTT*6~
+SE*29*3087~
+GE*1*4006~
+IEA*1*010000826~</code>
+
+  <div class="contact-info">
+    <h3>Questions & Support</h3>
+    <p>For technical questions, implementation guidance, or any other EDI-related inquiries, please reach out to us.</p>
+    <p><strong>Contact:</strong> <a href="mailto:edi@ezrirx.com">edi@ezrirx.com</a></p>
+  </div>
+
 </body>
 
 </html>

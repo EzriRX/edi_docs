@@ -1,0 +1,234 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>EzriRx - EDI Documentation</title>
+  <meta name="description" content="EzriRx EDI Documentation and Specifications for Vendor Partners">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style type="text/css">
+    body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      margin: 2% 3%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+      line-height: 1.4em;
+      margin-bottom: 10px;
+    }
+
+    h1 small {
+      color: #7f8c8d;
+      display: block;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1.3em;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin: 40px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    h3 {
+      color: #34495e;
+      margin: 30px 0 15px 0;
+    }
+
+    p {
+      line-height: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .workflow {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 30px;
+      margin: 30px 0;
+    }
+
+    .workflow ol {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+
+    .workflow li {
+      margin-bottom: 15px;
+      line-height: 1.5em;
+    }
+
+    .edi-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .spec-card {
+      background: #fff;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 25px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .spec-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .spec-card h4 {
+      color: #2c3e50;
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+
+    .spec-card p {
+      color: #6c757d;
+      margin: 0 0 15px 0;
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+
+    .spec-card a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .spec-card a:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .contact-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+
+    .contact-info h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .contact-info p {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .contact-info a {
+      color: #856404;
+      font-weight: 600;
+    }
+
+    .direction-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .inbound {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .outbound {
+      background: #cce5ff;
+      color: #004085;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>EzriRx EDI Documentation <small>Electronic Data Interchange Specifications for Vendor Partners</small></h1>
+
+  <div class="workflow">
+    <h3>EDI Transaction Workflow</h3>
+    <p>Our EDI integration follows a standard pharmaceutical supply chain workflow to ensure seamless order processing and fulfillment:</p>
+    
+    <ol>
+      <li><strong>Product Catalog Setup (832)</strong> - Vendors send us their product catalog and pricing information so we can set up their inventory on EzriRx.</li>
+      <li><strong>Purchase Orders (850)</strong> - For every new order placed by pharmacies, we send vendors an electronic purchase order.</li>
+      <li><strong>Order Acknowledgment (855)</strong> - Vendors send back an acknowledgment to confirm the order details, pricing, and availability.</li>
+      <li><strong>Shipment Notification (856)</strong> - When orders are shipped, vendors notify us with tracking and shipment details, which we use to inform the pharmacy.</li>
+      <li><strong>Invoicing (810)</strong> - Vendors send electronic invoices for completed orders to facilitate payment processing.</li>
+    </ol>
+  </div>
+
+  <h2>Supported EDI Transaction Types</h2>
+
+  <div class="edi-specs">
+    <div class="spec-card">
+      <h4>EDI 832 - Price/Sales Catalog <span class="direction-badge inbound">Inbound</span></h4>
+      <p>Send us your complete product catalog with pricing information to set up your inventory on EzriRx.</p>
+      <a href="832.html">View Specification →</a>
+    </div>
+
+    <div class="spec-card">
+      <h4>EDI 850 - Purchase Order <span class="direction-badge outbound">Outbound</span></h4>
+      <p>Electronic purchase orders sent to vendors when pharmacies place orders through EzriRx.</p>
+      <a href="850.html">View Documentation →</a>
+    </div>
+
+    <div class="spec-card">
+      <h4>EDI 855 - Purchase Order Acknowledgment <span class="direction-badge inbound">Inbound</span></h4>
+      <p>Confirm order receipt and communicate any changes to quantity, pricing, or availability.</p>
+      <a href="855.html">View Specification →</a>
+    </div>
+
+    <div class="spec-card">
+      <h4>EDI 856 - Advance Ship Notice <span class="direction-badge inbound">Inbound</span></h4>
+      <p>Notify us when orders are shipped with tracking information and shipment details.</p>
+      <a href="856.html">View Specification →</a>
+    </div>
+
+    <div class="spec-card">
+      <h4>EDI 810 - Invoice <span class="direction-badge inbound">Inbound</span></h4>
+      <p>Submit electronic invoices for completed orders to streamline payment processing.</p>
+      <a href="810.html">View Specification →</a>
+    </div>
+  </div>
+
+  <h2>Supported Communication Methods</h2>
+
+  <p>We currently support EDI file exchange via the following methods:</p>
+  
+  <ul>
+    <li><strong>FTP/SFTP</strong> - Secure file transfer protocol for batch EDI file processing.</li>
+    <li><strong>AS2 (Applicability Statement 2)</strong> - Secure, real-time EDI message exchange over the internet.</li>
+  </ul>
+
+  <div class="contact-info">
+    <h3>Getting Started & Support</h3>
+    <p><strong>AS2 Setup:</strong> For AS2 credentials and connection details, please contact our EDI team.</p>
+    <p><strong>Questions & Support:</strong> For technical questions, implementation guidance, or any other EDI-related inquiries, please reach out to us.</p>
+    <p><strong>Contact:</strong> <a href="mailto:edi@ezrirx.com">edi@ezrirx.com</a></p>
+  </div>
+
+</body>
+</html> 

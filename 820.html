@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EzriRx - 820 EDI Documentation</title>
-  <meta name="description" content="">
+  <meta name="description" content="EzriRx EDI 820 Payment Order/Remittance Advice Documentation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" type="text/css"
@@ -25,29 +25,43 @@
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
       font-weight: 400;
       margin: 2% 3%;
-    }
-
-    p {
-      line-height: 1.5em;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
     h1 {
-      line-height: 2em;
+      color: #2c3e50;
+      line-height: 1.4em;
+      margin-bottom: 10px;
     }
 
     h1 small {
-      color: #666;
+      color: #7f8c8d;
       display: block;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 24px;
       line-height: 1.3em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     h2 {
-      background: #f4f7fc;
-      border-left: 4px solid #bac4da;
-      padding: 8px 8px 8px 16px;
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin: 40px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    h3 {
+      color: #34495e;
+      margin: 30px 0 15px 0;
+    }
+
+    p {
+      line-height: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     h2,
@@ -55,13 +69,9 @@
       margin: 30px 0;
     }
 
-    h3 {
-      color: #41495f;
-      margin: 30px 0;
-    }
-
     ul li {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      line-height: 1.5em;
     }
 
     code {
@@ -72,7 +82,12 @@
       word-wrap: break-word;
       tab-size: 4;
       white-space: pre-line;
-      padding: .5rem;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 20px 0;
     }
 
     .tooltip {
@@ -85,19 +100,59 @@
       background: #6280a7;
       cursor: help;
     }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .contact-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+
+    .contact-info h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .contact-info p {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .contact-info a {
+      color: #856404;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
+  <a href="index.html" class="back-link">← Back to Documentation</a>
+  
   <h1>EzriRx - EDI 820 Payment Order/Remittance Advice <small>Documentation</small></h1>
 
-  <p>The below documentation outlines the 820 EDI file that represents a Payment Order/Remittance Advice.
-  <p>
+  <p>The below documentation outlines the 820 EDI file that represents a Payment Order/Remittance Advice.</p>
 
   <p>This document is sent to wholesalers when payment is processed on an EzriRx order. On EzriRx, this typically
     occurs when an order is fulfilled by the wholesaler, unless the order was placed using wholesaler-provided
-    credit, in which case the payment is processed when the pharmacy pays their invoice.
-  <p>
+    credit, in which case the payment is processed when the pharmacy pays their invoice.</p>
 
   <h2>820 Payment Order/Remittance Advice</h2>
 
@@ -107,25 +162,33 @@
   <p>Hover the highlighted elements to see more details:</p>
 
   <code>ISA*00* *00* *ZZ*<span class="tooltip" title="Sender ISA ID">EZRIRX</span> *ZZ*<span class="tooltip"
-              title="Receiver ISA ID">1234567890</span> *170725*0400*U*00401*000000001*0*P*~
-            GS*RA*<span class="tooltip" title="Sender GS ID">EZRIRX</span>*<span class="tooltip"
-              title="Receiver GS ID">1234567890</span>*20180208*0400*1*X*004010~
-            ST*820*0001~
-            BPR*<span class="tooltip" title="Invoice">I</span>*<span class="tooltip"
-              title="Monetary amount/order total">1234.99</span>*C*ACH~
-            TRN*1*<span class="tooltip"
-              title="Reference identification; unique payment number">PJQRCG47</span><br />CUR*BY*USD~
-            DTM*097*20180208~
-            N1*PE*<span class="tooltip" title="Payee; wholesaler name">Test Wholesaler</span>~
-            N1*PR*<span class="tooltip" title="Payer; pharmacy name">Test Pharmacy</span>*92*<span class="tooltip"
-              title="Pharmacy DEA number">AB1234567</span>~
-            ENT*1~
-            RMR*IV*<span class="tooltip" title="Reference number; invoice number">606266</span>**<span class="tooltip"
-              title="Monetary amount; invoice grand total">1234.99</span>~
-            REF*PO*<span class="tooltip" title="Order number">R276914531</span>~
-            SE*11*0001~
-            GE*1*1~
-            IEA*1*000000001~</code>
+      title="Receiver ISA ID">1234567890</span> *170725*0400*U*00401*000000001*0*P*~
+GS*RA*<span class="tooltip" title="Sender GS ID">EZRIRX</span>*<span class="tooltip"
+      title="Receiver GS ID">1234567890</span>*20180208*0400*1*X*004010~
+ST*820*0001~
+BPR*<span class="tooltip" title="Invoice">I</span>*<span class="tooltip"
+      title="Monetary amount/order total">1234.99</span>*C*ACH~
+TRN*1*<span class="tooltip"
+      title="Reference identification; unique payment number">PJQRCG47</span>
+CUR*BY*USD~
+DTM*097*20180208~
+N1*PE*<span class="tooltip" title="Payee; wholesaler name">Test Wholesaler</span>~
+N1*PR*<span class="tooltip" title="Payer; pharmacy name">Test Pharmacy</span>*92*<span class="tooltip"
+      title="Pharmacy DEA number">AB1234567</span>~
+ENT*1~
+RMR*IV*<span class="tooltip" title="Reference number; invoice number">606266</span>**<span class="tooltip"
+      title="Monetary amount; invoice grand total">1234.99</span>~
+REF*PO*<span class="tooltip" title="Order number">R276914531</span>~
+SE*11*0001~
+GE*1*1~
+IEA*1*000000001~</code>
+
+  <div class="contact-info">
+    <h3>Questions & Support</h3>
+    <p>For technical questions, implementation guidance, or any other EDI-related inquiries, please reach out to us.</p>
+    <p><strong>Contact:</strong> <a href="mailto:edi@ezrirx.com">edi@ezrirx.com</a></p>
+  </div>
+
 </body>
 
 </html>

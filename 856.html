@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>EzriRx - 856 EDI Specifications (Version 2)</title>
-  <meta name="description" content="">
+  <meta name="description" content="EzriRx EDI 856 Advance Ship Notice Documentation and Specifications">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" type="text/css"
@@ -25,28 +25,43 @@
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, Arial, sans-serif;
       font-weight: 400;
       margin: 2% 3%;
-    }
-
-    p {
-      line-height: 1.65em;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
     h1 {
-      line-height: 2em;
+      color: #2c3e50;
+      line-height: 1.4em;
+      margin-bottom: 10px;
     }
 
     h1 small {
-      color: #666;
+      color: #7f8c8d;
       display: block;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 24px;
       line-height: 1.3em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     h2 {
-      background: #f4f7fc;
-      padding: 16px;
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin: 40px 0 20px 0;
+      color: #2c3e50;
+    }
+
+    h3 {
+      color: #34495e;
+      margin: 30px 0 15px 0;
+    }
+
+    p {
+      line-height: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     h2,
@@ -54,13 +69,9 @@
       margin: 30px 0;
     }
 
-    h3 {
-      color: #41495f;
-      margin: 30px 0;
-    }
-
     ul li {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      line-height: 1.5em;
     }
 
     code {
@@ -70,7 +81,13 @@
       word-break: normal;
       word-wrap: break-word;
       tab-size: 4;
-      padding: .5rem;
+      white-space: pre-line;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 20px 0;
     }
 
     .tooltip {
@@ -83,133 +100,200 @@
       background: #6280a7;
       cursor: help;
     }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: 1px solid #3498db;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .contact-info {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 25px;
+      margin: 40px 0;
+    }
+
+    .contact-info h3 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .contact-info p {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .contact-info a {
+      color: #856404;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
+  <a href="index.html" class="back-link">← Back to Documentation</a>
+  
   <h1>EzriRx - EDI 856 Ship Notice (Version 2) <small>Specifications</small></h1>
 
-  <p>The below documentation outlines the requirements for an 856 EDI file that represents an ASN (Advance Ship Notice)
-    <p>
+  <p>The below documentation outlines the requirements for an 856 EDI file that represents an ASN (Advance Ship Notice)</p>
 
-      <p>At EzriRx we use the 856 file to represent order fulfillment status. As a wholesaler, you should supply an 856
-        to automate the process of marking your orders as fulfilled, and providing updates such as quantity of items
-        shipped, etc.</p>
+  <p>At EzriRx we use the 856 file to represent order fulfillment status. As a wholesaler, you should supply an 856
+    to automate the process of marking your orders as fulfilled, and providing updates such as quantity of items
+    shipped, etc.</p>
 
-      <h2>Your 856 EDI File</h2>
+  <h2>Your 856 EDI File</h2>
 
-      <p>Here is an example file that satisfies EzriRx's requirements for an 856 EDI file: <a
-          href="examples/856_example.edi.txt" target="_blank">ezrirx_856_example_v2.edi</a></p>
+  <p>Here is an example file that satisfies EzriRx's requirements for an 856 EDI file: <a
+      href="examples/856_example.edi.txt" target="_blank">ezrirx_856_example_v2.edi</a></p>
 
-      <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
-        file provided above.</p>
+  <p>Read below for a breakdown of each segment and other details. All samples used below are based off the example
+    file provided above.</p>
 
-      <h3>File Requirements</h3>
+  <h3>File Requirements</h3>
 
-      <p><strong>Note:</strong> if you've provided us with an 832 or 870, you are likely following these requirements
-        already:</p>
+  <p><strong>Note:</strong> if you've provided us with an 832 or 870, you are likely following these requirements
+    already:</p>
 
-      <ul>
-        <li>Please provide a .edi or .856 file with a unique name for each import - a timestamp is recommended (i.e.
-          "856_1518538502.edi" or "856_1518538502.856").</li>
-        <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
-          It can be named anything you choose.</li>
-        <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
-          hourly basis.</li>
-      </ul>
+  <ul>
+    <li>Please provide a .edi or .856 file with a unique name for each import - a timestamp is recommended (i.e.
+      "856_1518538502.edi" or "856_1518538502.856").</li>
+    <li>In your FTP server please create an outbound directory in the root directory where you will drop EDI files.
+      It can be named anything you choose.</li>
+    <li>You can drop files into the outbound FTP directory as frequently as you'd like. We scan for new files on an
+      hourly basis.</li>
+  </ul>
 
-      <h3>Header Segments</h3>
+  <h3>Header Segments</h3>
 
-      <code>ISA*00* *00* *ZZ*WHOLESALE *ZZ*EZRIRX
-        *171205*2219*U*00401*000055165*0*P*~<br />GS*SH*WHOLESALE*EZRIRX*20180213*2219*55165*X*004010<br />ST*856*55165<br />BSN*00*0714955*20171205*0000**AS</code>
+  <code>ISA*00* *00* *ZZ*WHOLESALE *ZZ*EZRIRX
+*171205*2219*U*00401*000055165*0*P*~
+GS*SH*WHOLESALE*EZRIRX*20180213*2219*55165*X*004010
+ST*856*55165
+BSN*00*0714955*20171205*0000**AS</code>
 
-      <p>These header segments are used on our end to determine that the file was intended for us, that the type of EDI
-        file is what we're expecting, etc.</p>
+  <p>These header segments are used on our end to determine that the file was intended for us, that the type of EDI
+    file is what we're expecting, etc.</p>
 
-      <p>These header segments are required, but don't worry too much about the values you use here, as they're largely
-        ignored by our parser (aside from the ISA and ST segments). Simply make sure the ISA states your vendor ID and
-        "EZRIRX", and ensure that the ST segment states the correct EDI file type.</p>
+  <p>These header segments are required, but don't worry too much about the values you use here, as they're largely
+    ignored by our parser (aside from the ISA and ST segments). Simply make sure the ISA states your vendor ID and
+    "EZRIRX", and ensure that the ST segment states the correct EDI file type.</p>
 
-      <h3>Shipment Information Segments</h3>
+  <h3>Shipment Information Segments</h3>
 
-      <p>Hover the highlighted elements below to see more details:</p>
+  <p>Hover the highlighted elements below to see more details:</p>
 
-      <code>HL*1**S<br /><span class="tooltip" title="Carrier details (quantity and weight)">TD1</span>**1****<span
-          class="tooltip" title="Weight qualifier; G = Gross Weight">G</span>*<span class="tooltip"
-          title="Numberic value of weight">12</span>*<span class="tooltip"
-          title="Unit or Basis for Measurement Code">LB</span><br /><span class="tooltip"
-          title="Carrier details (Routing Sequence/Transit Time)">TD5</span>**2*<span class="tooltip"
-          title="Transportation method">UPS GROUND</span><br />REF*<span class="tooltip"
-          title="Reference Identification Qualifier; Bill of Lading Number">BM</span>*<span class="tooltip"
-          title="Reference Identification; Bill of Lading Number">0714955</span><br />REF*<span class="tooltip"
-          title="Reference Identification Qualifier; Tracking Number">2I</span>*<span class="tooltip"
-          title="Reference Identification; Tracking Number">1ZE87F160342610851</span><br />DTM*<span class="tooltip"
-          title="Date/Time Qualifier; Shipped (Ship Date)">011</span>*<span class="tooltip"
-          title="Date; expressed as CCYYMMDD">20171205</span><br />N1*<span class="tooltip"
-          title="Entity Identifier Code; Ship To">ST</span>*<span class="tooltip" title="Name; Pharmacy Name">Example
-          Pharmacy, LLC</span>*<span class="tooltip" title="Identification Code Qualifier; DEA number">11</span>*<span
-          class="tooltip" title="Identification Code; DEA Number">0018619</span><br />N3*<span class="tooltip"
-          title="Address Information">123 Drury Lane</span><br />N4*<span class="tooltip"
-          title="City Name">Pace</span>*<span class="tooltip" title="State Code">FL</span>*<span class="tooltip"
-          title="Zip Code">32571</span>*<span class="tooltip" title="Country Code">US</span><br />N1*<span
-          class="tooltip" title="Entity Identifier Code; Ordered By">BY</span>*<span class="tooltip"
-          title="Name; Pharmacy Name">Example Pharmacy, LLC</span>*<span class="tooltip"
-          title="Identification Code Qualifier; DEA number">11</span>*<span class="tooltip"
-          title="Identification Code; DEA Number">0018619</span><br />N3*<span class="tooltip"
-          title="Address Information">123 Drury Lane</span><br />N4*<span class="tooltip"
-          title="City Name">Pace</span>*<span class="tooltip" title="State Code">FL</span>*<span class="tooltip"
-          title="Zip Code">32571</span>*<span class="tooltip" title="Country Code">US</span><br />N1*<span
-          class="tooltip" title="Entity Identifier Code; Ship From">SF</span>*<span class="tooltip"
-          title="Name; Wholesaler Name">Wholesale Medical</span>*11*<span class="tooltip"
-          title="Identification Code Qualifier; DEA Number (not used; can repeat ISA ID here)">WHOLESALE</span><br />N3*1970
-        Swarthmore Avenue, Suite 4<br />N4*Lakewood*NJ*08701*US<br />N1*<span class="tooltip"
-          title="Entity Identifier Code; Shipping Entity">SE</span>*<span class="tooltip"
-          title="Name; Wholesaler Name">Wholesale Medical</span>*11*<span class="tooltip"
-          title="Identification Code Qualifier; DEA Number (not used; can repeat ISA ID here)">WHOLESALE</span><br />N3*1970
-        Swarthmore Avenue, Suite 4<br />N4*Lakewood*NJ*08701*US<br />PER*<span class="tooltip"
-          title="Administrative Contact">CN</span>*<span class="tooltip" title="Contact Name">JOHN DOE</span>*TE*<span
-          class="tooltip" title="Contact Telephone">123-456-7890</span>*EM*<span class="tooltip"
-          title="Contact Email">JOHNDOE@EXAMPLE.COM</span><br />YNQ**<span class="tooltip"
-          title="Yes/No Condition; Y/N depending on whether this tranaction is DSCSA compliant">Y</span>***<span
-          class="tooltip" title="Free-Form Message Text">Seller has complied with each applicable subsection of FDCA
-          Sec. 581(27)(A)-(G)</span>***99*TS<br />YNQ**<span class="tooltip"
-          title="Yes/No Condition; Y/N depending on whether YNQ05 includes Direct Purchase Statement">Y</span>***<span
-          class="tooltip"
-          title="Direct Purchase Statement; if YNQ02 = N, an alternate note containing any value is required">As
-          indicated below, product was purchased directly from the manufacturer, manufacturers exclusive distributor or
-          repackager who purchased directly from a manufacturer</span>.***99*DPS<br />HL*2*1*O<br /><span
-          class="tooltip" title="Purchase Order Reference">PRF</span>*<span class="tooltip"
-          title="Purchase Order Number; EzriRx Order Number">R123456789</span><br />REF*IV*<span class="tooltip"
-          title="Seller's Invoice Number">123456789</span><br />HL*3*2*I<br />MAN*GM*<span class="tooltip"
-          title="SSCC-18 and Application Identifier">00000000000001234567</span><br />HL*4*2*I</code>
+  <code>HL*1**S
+<span class="tooltip" title="Carrier details (quantity and weight)">TD1</span>**1****<span
+      class="tooltip" title="Weight qualifier; G = Gross Weight">G</span>*<span class="tooltip"
+      title="Numberic value of weight">12</span>*<span class="tooltip"
+      title="Unit or Basis for Measurement Code">LB</span>
+<span class="tooltip"
+      title="Carrier details (Routing Sequence/Transit Time)">TD5</span>**2*<span class="tooltip"
+      title="Transportation method">UPS GROUND</span>
+REF*<span class="tooltip"
+      title="Reference Identification Qualifier; Bill of Lading Number">BM</span>*<span class="tooltip"
+      title="Reference Identification; Bill of Lading Number">0714955</span>
+REF*<span class="tooltip"
+      title="Reference Identification Qualifier; Tracking Number">2I</span>*<span class="tooltip"
+      title="Reference Identification; Tracking Number">1ZE87F160342610851</span>
+DTM*<span class="tooltip"
+      title="Date/Time Qualifier; Shipped (Ship Date)">011</span>*<span class="tooltip"
+      title="Date; expressed as CCYYMMDD">20171205</span>
+N1*<span class="tooltip"
+      title="Entity Identifier Code; Ship To">ST</span>*<span class="tooltip" title="Name; Pharmacy Name">Example
+      Pharmacy, LLC</span>*<span class="tooltip" title="Identification Code Qualifier; DEA number">11</span>*<span
+      class="tooltip" title="Identification Code; DEA Number">0018619</span>
+N3*<span class="tooltip"
+      title="Address Information">123 Drury Lane</span>
+N4*<span class="tooltip"
+      title="City Name">Pace</span>*<span class="tooltip" title="State Code">FL</span>*<span class="tooltip"
+      title="Zip Code">32571</span>*<span class="tooltip" title="Country Code">US</span>
+N1*<span
+      class="tooltip" title="Entity Identifier Code; Ordered By">BY</span>*<span class="tooltip"
+      title="Name; Pharmacy Name">Example Pharmacy, LLC</span>*<span class="tooltip"
+      title="Identification Code Qualifier; DEA number">11</span>*<span class="tooltip"
+      title="Identification Code; DEA Number">0018619</span>
+N3*<span class="tooltip"
+      title="Address Information">123 Drury Lane</span>
+N4*<span class="tooltip"
+      title="City Name">Pace</span>*<span class="tooltip" title="State Code">FL</span>*<span class="tooltip"
+      title="Zip Code">32571</span>*<span class="tooltip" title="Country Code">US</span>
+N1*<span
+      class="tooltip" title="Entity Identifier Code; Ship From">SF</span>*<span class="tooltip"
+      title="Name; Wholesaler Name">Wholesale Medical</span>*11*<span class="tooltip"
+      title="Identification Code Qualifier; DEA Number (not used; can repeat ISA ID here)">WHOLESALE</span>
+N3*1970 Swarthmore Avenue, Suite 4
+N4*Lakewood*NJ*08701*US
+N1*<span class="tooltip"
+      title="Entity Identifier Code; Shipping Entity">SE</span>*<span class="tooltip"
+      title="Name; Wholesaler Name">Wholesale Medical</span>*11*<span class="tooltip"
+      title="Identification Code Qualifier; DEA Number (not used; can repeat ISA ID here)">WHOLESALE</span>
+N3*1970 Swarthmore Avenue, Suite 4
+N4*Lakewood*NJ*08701*US
+PER*<span class="tooltip"
+      title="Administrative Contact">CN</span>*<span class="tooltip" title="Contact Name">JOHN DOE</span>*TE*<span
+      class="tooltip" title="Contact Telephone">123-456-7890</span>*EM*<span class="tooltip"
+      title="Contact Email">JOHNDOE@EXAMPLE.COM</span>
+YNQ**<span class="tooltip"
+      title="Yes/No Condition; Y/N depending on whether this tranaction is DSCSA compliant">Y</span>***<span
+      class="tooltip" title="Free-Form Message Text">Seller has complied with each applicable subsection of FDCA
+      Sec. 581(27)(A)-(G)</span>***99*TS
+YNQ**<span class="tooltip"
+      title="Yes/No Condition; Y/N depending on whether YNQ05 includes Direct Purchase Statement">Y</span>***<span
+      class="tooltip"
+      title="Direct Purchase Statement; if YNQ02 = N, an alternate note containing any value is required">As
+      indicated below, product was purchased directly from the manufacturer, manufacturers exclusive distributor or
+      repackager who purchased directly from a manufacturer</span>.***99*DPS
+HL*2*1*O
+<span
+      class="tooltip" title="Purchase Order Reference">PRF</span>*<span class="tooltip"
+      title="Purchase Order Number; EzriRx Order Number">R123456789</span>
+REF*IV*<span class="tooltip"
+      title="Seller's Invoice Number">123456789</span>
+HL*3*2*I
+MAN*GM*<span class="tooltip"
+      title="SSCC-18 and Application Identifier">00000000000001234567</span>
+HL*4*2*I</code>
 
-      <h3>Line Item Segments</h3>
+  <h3>Line Item Segments</h3>
 
-      <p>Hover the highlighted elements below to see more details:</p>
+  <p>Hover the highlighted elements below to see more details:</p>
 
-      <code>LIN**<span class="tooltip" title="
+  <code>LIN**<span class="tooltip" title="
 Product/Service ID Qualifier; NDC in 5-4-2 format">N4</span>*<span class="tooltip"
-          title="Product/Service ID; NDC number">68462035594</span>***<span class="tooltip"
-          title="Product/Service ID Qualifier; Lot number">LT</span>*<span class="tooltip"
-          title="Product/Service ID; Lot number (not used; can be any value)">19164870</span><br /><span class="tooltip"
-          title="Item Detail (Shipment)">SN1</span>**<span class="tooltip"
-          title="Number of Units Shipped; Quantity">16</span>*<span class="tooltip"
-          title="Unit or Basis for Measurement Code; Each">EA</span><br />PID*F****<span class="tooltip"
-          title="Description; Product name">Diclofenac Sod 3% Topical Gel 100gm</span><br />DTM*<span class="tooltip"
-          title="Date/Time Qualifier; Lot Number Expiration">208</span>*<span class="tooltip"
-          title="Date; Lot Number/Product Expiration Date">20201130</span><br />N1*MF*<span class="tooltip"
-          title="Manufacturer Name">AMNEAL PHARMACEUTICALS LLC</span><br />N3*118 BEAVER TRAIL*MAIL CODE
-        11070<br />N4*GLASGOW*KY*42141-0000*USA<br /><span class="tooltip"
-          title="Transaction Date (DSCSA)">REF*7C</span>*20190304<br />HL*5*2*I</code>
+      title="Product/Service ID; NDC number">68462035594</span>***<span class="tooltip"
+      title="Product/Service ID Qualifier; Lot number">LT</span>*<span class="tooltip"
+      title="Product/Service ID; Lot number (not used; can be any value)">19164870</span>
+<span class="tooltip"
+      title="Item Detail (Shipment)">SN1</span>**<span class="tooltip"
+      title="Number of Units Shipped; Quantity">16</span>*<span class="tooltip"
+      title="Unit or Basis for Measurement Code; Each">EA</span>
+PID*F****<span class="tooltip"
+      title="Description; Product name">Diclofenac Sod 3% Topical Gel 100gm</span>
+DTM*<span class="tooltip"
+      title="Date/Time Qualifier; Lot Number Expiration">208</span>*<span class="tooltip"
+      title="Date; Lot Number/Product Expiration Date">20201130</span>
+N1*MF*</code>
 
-      <p>Note: Please omit the HL segment from your final line item segment, as is demonstrated in the example file
-        linked above.</p>
+  <div class="contact-info">
+    <h3>Questions & Support</h3>
+    <p>For technical questions, implementation guidance, or any other EDI-related inquiries, please reach out to us.</p>
+    <p><strong>Contact:</strong> <a href="mailto:edi@ezrirx.com">edi@ezrirx.com</a></p>
+  </div>
 
-      <h3>Footer Segments</h3>
-
-      <code>CTT*33<br />SE*52*55165<br />GE*1*55165<br />IEA*1*000055165</code>
-
-      <p>These segments are required, but ultimately ignored by our parser.</p>
 </body>
 
 </html>
